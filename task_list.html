@@ -1,0 +1,162 @@
+{% extends 'taskapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="task-list-container">
+        <h2 class="page-title">Your Tasks</h2>
+        <a href="{% url 'create_task' %}" class="btn btn-success add-task-btn">+ New Task</a>
+        
+        <div class="task-table-container">
+            <table class="task-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.title }}</td>
+                        <td>
+                            <span class="status {{ task.status|lower }}">{{ task.status }}</span>
+                        </td>
+                        <td>
+                            <a href="{% url 'update_task' task.id %}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="no-task">No tasks found. Add a new task!</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f4f7fc;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+    }
+
+    .task-list-container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+    }
+
+    .page-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .add-task-btn {
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+    .task-table-container {
+        overflow-x: auto;
+    }
+
+    .task-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+    }
+
+    .task-table th, .task-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .task-table th {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+
+    .task-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        color: white;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+    .btn-warning {
+        background-color: #f0ad4e;
+    }
+
+    .btn-danger {
+        background-color: #d9534f;
+    }
+
+    .btn-warning:hover {
+        background-color: #ec971f;
+    }
+
+    .btn-danger:hover {
+        background-color: #c9302c;
+    }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .status.completed {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .status.pending {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .status.in-progress {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .no-task {
+        text-align: center;
+        font-style: italic;
+        color: #777;
+        padding: 15px;
+    }
+</style>
+
+{% endblock %}
